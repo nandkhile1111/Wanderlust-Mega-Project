@@ -1,6 +1,6 @@
 @Library('Shared') _
 pipeline {
-    agent any
+    agent {label 'Node'}
     
     parameters {
         string(name: 'FRONTEND_DOCKER_TAG', defaultValue: '', description: 'Frontend Docker tag of the image built by the CI job')
@@ -75,140 +75,51 @@ pipeline {
             }
         }
     }
-//   post {
-//         success {
-//             script {
-//                 emailext attachLog: true,
-//                 from: 'adityanandkhile9696@gmail.com',
-//                 subject: "Wanderlust Application has been updated and deployed - '${currentBuild.result}'",
-//                 body: """
-//                     <html>
-//                     <body>
-//                         <div style="background-color: #FFA07A; padding: 10px; margin-bottom: 10px;">
-//                             <p style="color: black; font-weight: bold;">Project: ${env.JOB_NAME}</p>
-//                         </div>
-//                         <div style="background-color: #90EE90; padding: 10px; margin-bottom: 10px;">
-//                             <p style="color: black; font-weight: bold;">Build Number: ${env.BUILD_NUMBER}</p>
-//                         </div>
-//                         <div style="background-color: #87CEEB; padding: 10px; margin-bottom: 10px;">
-//                             <p style="color: black; font-weight: bold;">URL: ${env.BUILD_URL}</p>
-//                         </div>
-//                     </body>
-//                     </html>
-//             """,
-//             to: 'adityanandkhile9696@gmail.com',
-//             mimeType: 'text/html'
-//             }
-//         }
-//       failure {
-//             script {
-//                 emailext attachLog: true,
-//                 from: 'adityanandkhile9696@gmail.com',
-//                 subject: "Wanderlust Application build failed - '${currentBuild.result}'",
-//                 body: """
-//                     <html>
-//                     <body>
-//                         <div style="background-color: #FFA07A; padding: 10px; margin-bottom: 10px;">
-//                             <p style="color: black; font-weight: bold;">Project: ${env.JOB_NAME}</p>
-//                         </div>
-//                         <div style="background-color: #90EE90; padding: 10px; margin-bottom: 10px;">
-//                             <p style="color: black; font-weight: bold;">Build Number: ${env.BUILD_NUMBER}</p>
-//                         </div>
-//                     </body>
-//                     </html>
-//             """,
-//             to: 'adityanandkhile9696@gmail.com',
-//             mimeType: 'text/html'
-//             }
-//         }
-//     }
-// }
-
-    
-post {
-    success {
-        echo"=========================================================================================="
-        // emailext(
-        //     to: 'adityanandkhile9696@gmail.com',
-        //     subject: "SUCCESS: Wanderlust CD Deployment - Build #${env.BUILD_NUMBER}",
-        //     mimeType: 'text/html',
-        //     attachLog: true,
-        //     body: """
-        //         <html>
-        //         <body style="font-family: Arial, sans-serif;">
-        //             <h2 style="color: green;">Wanderlust CD Pipeline Successful</h2>
-
-        //             <p><b>Project:</b> ${env.JOB_NAME}</p>
-        //             <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-        //             <p><b>Status:</b> SUCCESS</p>
-        //             <p><b>Frontend Docker Tag:</b> ${params.FRONTEND_DOCKER_TAG}</p>
-        //             <p><b>Backend Docker Tag:</b> ${params.BACKEND_DOCKER_TAG}</p>
-        //             <p><b>Build URL:</b>
-        //                <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>
-        //             </p>
-
-        //             <p>Kubernetes manifests were updated and pushed to GitHub.</p>
-        //         </body>
-        //         </html>
-        //     """
-        // )
-           emailext(
+  post {
+        success {
+            script {
+                emailext attachLog: true,
+                from: 'adityanandkhile9696@gmail.com',
+                subject: "Wanderlust Application has been updated and deployed - '${currentBuild.result}'",
+                body: """
+                    <html>
+                    <body>
+                        <div style="background-color: #FFA07A; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Project: ${env.JOB_NAME}</p>
+                        </div>
+                        <div style="background-color: #90EE90; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Build Number: ${env.BUILD_NUMBER}</p>
+                        </div>
+                        <div style="background-color: #87CEEB; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">URL: ${env.BUILD_URL}</p>
+                        </div>
+                    </body>
+                    </html>
+            """,
             to: 'adityanandkhile9696@gmail.com',
-            subject: "Wanderlust CI SUCCESS - Build #${env.BUILD_NUMBER}",
-            body: """
-                CI pipeline completed successfully.
-
-                Job: ${env.JOB_NAME}
-                Build: #${env.BUILD_NUMBER}
-                URL: ${env.BUILD_URL}
-
-                Frontend tag: ${params.FRONTEND_DOCKER_TAG}
-                Backend tag: ${params.BACKEND_DOCKER_TAG}
-            """
-        )
-    }
-
-    // failure {
-    //     emailext(
-    //         to: 'adityanandkhile9696@gmail.com',
-    //         subject: "FAILED: Wanderlust CD Pipeline - Build #${env.BUILD_NUMBER}",
-    //         mimeType: 'text/html',
-    //         attachLog: true,
-    //         body: """
-    //             <html>
-    //             <body style="font-family: Arial, sans-serif;">
-    //                 <h2 style="color: red;">Wanderlust CD Pipeline Failed</h2>
-
-    //                 <p><b>Project:</b> ${env.JOB_NAME}</p>
-    //                 <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-    //                 <p><b>Status:</b> ${currentBuild.currentResult}</p>
-    //                 <p><b>Build URL:</b>
-    //                    <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>
-    //                 </p>
-
-    //                 <p>Please check the Jenkins console output to identify the error.</p>
-    //             </body>
-    //             </html>
-    //         """
-    //     )
-    // }
-
-    failure {
-        emailext(
+            mimeType: 'text/html'
+            }
+        }
+      failure {
+            script {
+                emailext attachLog: true,
+                from: 'adityanandkhile9696@gmail.com',
+                subject: "Wanderlust Application build failed - '${currentBuild.result}'",
+                body: """
+                    <html>
+                    <body>
+                        <div style="background-color: #FFA07A; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Project: ${env.JOB_NAME}</p>
+                        </div>
+                        <div style="background-color: #90EE90; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Build Number: ${env.BUILD_NUMBER}</p>
+                        </div>
+                    </body>
+                    </html>
+            """,
             to: 'adityanandkhile9696@gmail.com',
-            subject: "Wanderlust CI FAILED - Build #${env.BUILD_NUMBER}",
-            body: """
-                CI pipeline failed.
-
-                Job: ${env.JOB_NAME}
-                Build: #${env.BUILD_NUMBER}
-                URL: ${env.BUILD_URL}console
-            """
-        )
-    }
-
-    always {
-        echo "Wanderlust-CD finished with status: ${currentBuild.currentResult}"
+            mimeType: 'text/html'
+            }
+        }
     }
 }
-
