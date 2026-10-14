@@ -127,53 +127,81 @@ pipeline {
     
 post {
     success {
-        emailext(
+        // emailext(
+        //     to: 'adityanandkhile9696@gmail.com',
+        //     subject: "SUCCESS: Wanderlust CD Deployment - Build #${env.BUILD_NUMBER}",
+        //     mimeType: 'text/html',
+        //     attachLog: true,
+        //     body: """
+        //         <html>
+        //         <body style="font-family: Arial, sans-serif;">
+        //             <h2 style="color: green;">Wanderlust CD Pipeline Successful</h2>
+
+        //             <p><b>Project:</b> ${env.JOB_NAME}</p>
+        //             <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+        //             <p><b>Status:</b> SUCCESS</p>
+        //             <p><b>Frontend Docker Tag:</b> ${params.FRONTEND_DOCKER_TAG}</p>
+        //             <p><b>Backend Docker Tag:</b> ${params.BACKEND_DOCKER_TAG}</p>
+        //             <p><b>Build URL:</b>
+        //                <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>
+        //             </p>
+
+        //             <p>Kubernetes manifests were updated and pushed to GitHub.</p>
+        //         </body>
+        //         </html>
+        //     """
+        // )
+           emailext(
             to: 'adityanandkhile9696@gmail.com',
-            subject: "SUCCESS: Wanderlust CD Deployment - Build #${env.BUILD_NUMBER}",
-            mimeType: 'text/html',
-            attachLog: true,
+            subject: "Wanderlust CI SUCCESS - Build #${env.BUILD_NUMBER}",
             body: """
-                <html>
-                <body style="font-family: Arial, sans-serif;">
-                    <h2 style="color: green;">Wanderlust CD Pipeline Successful</h2>
+                CI pipeline completed successfully.
 
-                    <p><b>Project:</b> ${env.JOB_NAME}</p>
-                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                    <p><b>Status:</b> SUCCESS</p>
-                    <p><b>Frontend Docker Tag:</b> ${params.FRONTEND_DOCKER_TAG}</p>
-                    <p><b>Backend Docker Tag:</b> ${params.BACKEND_DOCKER_TAG}</p>
-                    <p><b>Build URL:</b>
-                       <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>
-                    </p>
+                Job: ${env.JOB_NAME}
+                Build: #${env.BUILD_NUMBER}
+                URL: ${env.BUILD_URL}
 
-                    <p>Kubernetes manifests were updated and pushed to GitHub.</p>
-                </body>
-                </html>
+                Frontend tag: ${params.FRONTEND_DOCKER_TAG}
+                Backend tag: ${params.BACKEND_DOCKER_TAG}
             """
         )
     }
 
+    // failure {
+    //     emailext(
+    //         to: 'adityanandkhile9696@gmail.com',
+    //         subject: "FAILED: Wanderlust CD Pipeline - Build #${env.BUILD_NUMBER}",
+    //         mimeType: 'text/html',
+    //         attachLog: true,
+    //         body: """
+    //             <html>
+    //             <body style="font-family: Arial, sans-serif;">
+    //                 <h2 style="color: red;">Wanderlust CD Pipeline Failed</h2>
+
+    //                 <p><b>Project:</b> ${env.JOB_NAME}</p>
+    //                 <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+    //                 <p><b>Status:</b> ${currentBuild.currentResult}</p>
+    //                 <p><b>Build URL:</b>
+    //                    <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>
+    //                 </p>
+
+    //                 <p>Please check the Jenkins console output to identify the error.</p>
+    //             </body>
+    //             </html>
+    //         """
+    //     )
+    // }
+
     failure {
         emailext(
             to: 'adityanandkhile9696@gmail.com',
-            subject: "FAILED: Wanderlust CD Pipeline - Build #${env.BUILD_NUMBER}",
-            mimeType: 'text/html',
-            attachLog: true,
+            subject: "Wanderlust CI FAILED - Build #${env.BUILD_NUMBER}",
             body: """
-                <html>
-                <body style="font-family: Arial, sans-serif;">
-                    <h2 style="color: red;">Wanderlust CD Pipeline Failed</h2>
+                CI pipeline failed.
 
-                    <p><b>Project:</b> ${env.JOB_NAME}</p>
-                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                    <p><b>Status:</b> ${currentBuild.currentResult}</p>
-                    <p><b>Build URL:</b>
-                       <a href="${env.BUILD_URL}">${env.BUILD_URL}</a>
-                    </p>
-
-                    <p>Please check the Jenkins console output to identify the error.</p>
-                </body>
-                </html>
+                Job: ${env.JOB_NAME}
+                Build: #${env.BUILD_NUMBER}
+                URL: ${env.BUILD_URL}console
             """
         )
     }
