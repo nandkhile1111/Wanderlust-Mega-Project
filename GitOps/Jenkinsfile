@@ -127,6 +127,7 @@ pipeline {
     
 post {
     success {
+        echo"=========================================================================================="
         // emailext(
         //     to: 'adityanandkhile9696@gmail.com',
         //     subject: "SUCCESS: Wanderlust CD Deployment - Build #${env.BUILD_NUMBER}",
